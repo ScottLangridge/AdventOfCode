@@ -1,10 +1,15 @@
+from itertools import permutations
+
+
 def main(raw_input):
-    # Parse input
+    triangles = [list(map(int, i.split())) for i in raw_input.strip('\n').split('\n')]
 
-    # Solve problem
+    valid_count = 0
+    for t in triangles:
+        if t[0] + t[1] > t[2] and t[1] + t[2] > t[0] and t[2] + t[0] > t[1]:
+            valid_count += 1
 
-    # Return solution
-    return None
+    return valid_count
 
 
 def get_input(filename):
