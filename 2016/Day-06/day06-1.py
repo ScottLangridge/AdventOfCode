@@ -1,10 +1,14 @@
+from collections import Counter
+
+
 def main(raw_input):
-    # Parse input
+    columns = list(zip(*[list(i) for i in raw_input.strip('\n').split('\n')]))
+    return "".join(map(get_most_common_char, columns))
 
-    # Solve problem
 
-    # Return solution
-    return None
+def get_most_common_char(string):
+    counts = Counter(string)
+    return max(counts, key=counts.get)
 
 
 def get_input(filename):
