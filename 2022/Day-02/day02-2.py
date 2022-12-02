@@ -1,6 +1,3 @@
-1533
-
-
 def main(raw_input):
     match = [i.split() for i in raw_input.strip().splitlines()]
 
