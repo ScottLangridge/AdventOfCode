@@ -1,10 +1,23 @@
 def main(raw_input):
-    # Parse input
+    rucksacks = [parse_rucksack(i) for i in raw_input.splitlines()]
 
-    # Solve problem
+    prio_sum = 0
+    for rucksack in rucksacks:
+        shared_item = set.intersection(*rucksack).pop()
+        prio_sum += priority(shared_item)
 
-    # Return solution
-    return None
+    return prio_sum
+
+
+def parse_rucksack(str):
+    return set(str[:len(str) // 2]), set(str[len(str) // 2:])
+
+
+def priority(item):
+    if item.islower():
+        return ord(item) - 96
+    else:
+        return ord(item) - 38
 
 
 def get_input(filename):
