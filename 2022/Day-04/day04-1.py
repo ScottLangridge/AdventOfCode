@@ -1,10 +1,21 @@
 def main(raw_input):
-    # Parse input
+    pairs = [parse_pair(i) for i in raw_input.splitlines()]
 
-    # Solve problem
+    count = 0
+    for pair in pairs:
+        if is_sub_or_superset(pair[0], pair[1]):
+            count += 1
 
-    # Return solution
-    return None
+    return count
+
+
+def is_sub_or_superset(a, b):
+    return (a[0] <= b[0] and a[1] >= b[1]) or (b[0] <= a[0] and b[1] >= a[1])
+
+
+def parse_pair(pair_str):
+    elf_pair = [i.split('-') for i in pair_str.split(',')]
+    return [[int(num) for num in num_pair] for num_pair in elf_pair]
 
 
 def get_input(filename):
