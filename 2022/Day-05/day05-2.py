@@ -1,10 +1,31 @@
+class Instruction:
+    def __init__(self, instruction_string):
+        split_instruction = instruction_string.split()
+        self.move_num = int(split_instruction[1])
+        self.move_from = int(split_instruction[3]) - 1
+        self.move_to = int(split_instruction[5]) - 1
+
+
 def main(raw_input):
-    # Parse input
+    stacks, instructions = raw_input.split('\n\n')
+    stacks = parse_stacks(stacks)
+    instructions = [Instruction(i) for i in instructions.splitlines()]
 
-    # Solve problem
+    for i in instructions:
+        stacks[i.move_to].extend(pop_n(stacks[i.move_from], i.move_num))
 
-    # Return solution
-    return None
+    return ''.join(map(lambda i: i[-1], stacks))
+
+
+def pop_n(lst, n):
+    out = lst[-n:]
+    del lst[-n:]
+    return out
+
+
+def parse_stacks(str_stacks):
+    stacks = [i.strip('[]').split(',') for i in str_stacks.replace('    ', ' []').replace('] [', ',').splitlines()][:-1]
+    return [list(filter(lambda i: i != '', reversed(stack))) for stack in zip(*stacks)]
 
 
 def get_input(filename):

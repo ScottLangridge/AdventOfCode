@@ -1,10 +1,9 @@
 def main(raw_input):
-    # Parse input
+    signal = raw_input
 
-    # Solve problem
-
-    # Return solution
-    return None
+    for i in range(4, len(signal)):
+        if len(set(signal[i - 4:i])) == 4:
+            return i
 
 
 def get_input(filename):
