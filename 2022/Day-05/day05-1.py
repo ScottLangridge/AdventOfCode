@@ -24,8 +24,8 @@ def pop_n(lst, n):
 
 
 def parse_stacks(str_stacks):
-    stacks = [i.strip('[]').split(',') for i in str_stacks.replace('    ', ' []').replace('] [', ',').splitlines()][:-1]
-    return [list(filter(lambda i: i != '', reversed(stack))) for stack in zip(*stacks)]
+    stacks = [i.strip(' []').split(',') for i in ('\n' + str_stacks).replace('\n', '\n ').replace('    ', ' [ ]').replace('] [', ',').splitlines()][1:-1]
+    return [list(filter(lambda i: i != ' ' and i != '', reversed(stack))) for stack in zip(*stacks)]
 
 
 def get_input(filename):
@@ -35,5 +35,5 @@ def get_input(filename):
 
 
 if __name__ == '__main__':
-    puzzle_input = get_input('input.txt')
+    puzzle_input = get_input('super_input.txt')
     print(main(puzzle_input))
