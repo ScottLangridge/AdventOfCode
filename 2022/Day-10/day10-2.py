@@ -1,10 +1,33 @@
+class Screen:
+    def __init__(self):
+        self.cycle = 1
+        self.reg_x = 1
+        self.image = ""
+
+    def increment(self):
+        pixel_lit = abs(((self.cycle - 1) % 40) - self.reg_x) <= 1
+        self.image += "#" if pixel_lit else "."
+
+        if self.cycle % 40 == 0:
+            self.image += "\n"
+
+        self.cycle += 1
+
+
 def main(raw_input):
-    # Parse input
+    instructions = raw_input.splitlines()
+    screen = Screen()
 
-    # Solve problem
+    for i in instructions:
+        if i.startswith("addx"):
+            screen.increment()
+            screen.increment()
+            v = int(i.split()[1])
+            screen.reg_x += v
+        else:
+            screen.increment()
 
-    # Return solution
-    return None
+    return screen.image
 
 
 def get_input(filename):

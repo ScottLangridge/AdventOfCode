@@ -1,10 +1,29 @@
+class Screen:
+    def __init__(self):
+        self.cycle = 1
+        self.reg_x = 1
+        self.signal_strength = 0
+
+    def increment(self):
+        if (self.cycle - 20) % 40 == 0:
+            self.signal_strength += self.cycle * self.reg_x
+        self.cycle += 1
+
+
 def main(raw_input):
-    # Parse input
+    instructions = raw_input.splitlines()
+    screen = Screen()
 
-    # Solve problem
+    for i in instructions:
+        if i.startswith("addx"):
+            screen.increment()
+            screen.increment()
+            v = int(i.split()[1])
+            screen.reg_x += v
+        else:
+            screen.increment()
 
-    # Return solution
-    return None
+    return screen.signal_strength
 
 
 def get_input(filename):
