@@ -1,10 +1,60 @@
+from collections import defaultdict
+from itertools import product
+
+
 def main(raw_input):
-    # Parse input
+    grid = defaultdict(lambda: '.')
+    for line in raw_input.strip().splitlines():
+        for rock_coord in parse_line(line):
+            grid[rock_coord] = '#'
 
-    # Solve problem
+    source = (500, 0)
+    floor = max(map(lambda i: i[1], grid.keys())) + 2
 
-    # Return solution
-    return None
+    sand_count = 0
+    while True:
+        sand_pos = list(source)
+        next_pos = next_sand_pos(grid, floor, sand_pos)
+        while next_pos != sand_pos:
+            sand_pos = next_pos
+            next_pos = next_sand_pos(grid, floor, sand_pos)
+
+        if next_pos == tuple(source):
+            return sand_count + 1
+
+        sand_count += 1
+        grid[next_pos] = 'o'
+
+
+def next_sand_pos(grid, floor, sand_pos):
+    if sand_pos[1] + 1 == floor:
+        return tuple(sand_pos)
+    elif grid[sand_pos[0], sand_pos[1] + 1] == '.':
+        return sand_pos[0], sand_pos[1] + 1
+    elif grid[sand_pos[0] - 1, sand_pos[1] + 1] == '.':
+        return sand_pos[0] - 1, sand_pos[1] + 1
+    elif grid[sand_pos[0] + 1, sand_pos[1] + 1] == '.':
+        return sand_pos[0] + 1, sand_pos[1] + 1
+    else:
+        return tuple(sand_pos)
+
+
+def parse_line(line):
+    waypoints = line.strip().split(' -> ')
+    waypoints = [list(map(int, point.split(','))) for point in waypoints]
+
+    all_coords = []
+    for i in range(len(waypoints) - 1):
+        x_range = list(inclusive_range(*sorted(map(lambda i: i[0], [waypoints[i], waypoints[i + 1]]))))
+        y_range = list(inclusive_range(*sorted(map(lambda i: i[1], [waypoints[i], waypoints[i + 1]]))))
+
+        all_coords.extend(product(x_range, y_range))
+
+    return all_coords
+
+
+def inclusive_range(start, stop):
+    return range(start, stop + 1)
 
 
 def get_input(filename):
