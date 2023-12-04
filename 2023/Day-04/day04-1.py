@@ -1,10 +1,15 @@
 def main(raw_input):
-    # Parse input
+    cards = raw_input.splitlines()
 
-    # Solve problem
+    points = 0
+    for card in cards:
+        card_id, card_numbers = card.split(': ')
+        winning_nums, elf_nums = map(lambda x: set(x.split()), card_numbers.replace('  ', ' ').split(' | '))
+        matches = len(elf_nums.intersection(winning_nums))
+        if matches:
+            points += 1 * (2 ** (matches - 1))
 
-    # Return solution
-    return None
+    return points
 
 
 def get_input(filename):
