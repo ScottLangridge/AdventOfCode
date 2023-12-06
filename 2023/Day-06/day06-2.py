@@ -1,10 +1,21 @@
+from tqdm import tqdm
+
+
 def main(raw_input):
-    # Parse input
+    times, dists = raw_input.splitlines()
+    t = int(times.strip('Time: ').replace(' ', ''))
+    d = int(dists.strip('Distance: ').replace(' ', ''))
 
-    # Solve problem
+    winning_options = 0
+    for btn_time in tqdm(range(t + 1)):
+        if get_dist(t, btn_time) > d:
+            winning_options += 1
 
-    # Return solution
-    return None
+    return winning_options
+
+
+def get_dist(race_time, btn_time):
+    return btn_time * (race_time - btn_time)
 
 
 def get_input(filename):
