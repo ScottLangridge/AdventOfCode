@@ -1,7 +1,6 @@
 from collections import Counter
 
 
-
 CARD_SCORES = {
     '2': 2,
     '3': 3,
@@ -20,39 +19,45 @@ CARD_SCORES = {
 
 
 def main(raw_input):
-    hands = [hand.split() for hand in raw_input.splitlines()] 
-    hands = 
+    hands = [hand.split() for hand in raw_input.splitlines()]
+    ranked_hands = sorted(hands, key=lambda i: get_hand_score(i[0]))
+
+    total_winnings = 0
+    for i, hand in enumerate(ranked_hands):
+        total_winnings += (i + 1) * int(hand[1])
+
+    return total_winnings
 
 
-    # Solve problem
-
-    # Return solution
-    return None
-
+# Scores are integers of the form 01122334455. The first digit is the type score, the rest are the cards.
 def get_hand_score(cards):
-    # Scores are integers of the form 01122334455
-  
     score = 0
-    score += get_hand_score(cards) * 10000000000
-  
-  
+    score += get_hand_type(cards) * 10000000000
+    score += CARD_SCORES[cards[0]] * 100000000
+    score += CARD_SCORES[cards[1]] * 1000000
+    score += CARD_SCORES[cards[2]] * 10000
+    score += CARD_SCORES[cards[3]] * 100
+    score += CARD_SCORES[cards[4]] * 1
+    return score
+
 
 def get_hand_type(cards):
-    counts = sorted(Counted(cards).values())
-    if counts = [1, 1, 1, 1, 1]:
+    counts = sorted(Counter(cards).values(), reverse=True)
+    if counts == [1, 1, 1, 1, 1]:
         return 1
-    if counts = [2, 1, 1, 1]:
+    if counts == [2, 1, 1, 1]:
         return 2
-    if counts = [2, 2, 1]:
+    if counts == [2, 2, 1]:
         return 3
-    if counts = [3, 1, 1]:
+    if counts == [3, 1, 1]:
         return 4
-    if counts = [3, 2]:
+    if counts == [3, 2]:
         return 5
-    if counts = [4, 1]:
+    if counts == [4, 1]:
         return 6
-    if counts = [5]:
+    if counts == [5]:
         return 7
+    raise 'Should not get here'
     
 
 def get_input(filename):

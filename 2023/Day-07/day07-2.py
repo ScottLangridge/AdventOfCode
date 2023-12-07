@@ -1,10 +1,73 @@
+from collections import Counter
+
+CARD_SCORES = {
+    'J': 1,
+    '2': 2,
+    '3': 3,
+    '4': 4,
+    '5': 5,
+    '6': 6,
+    '7': 7,
+    '8': 8,
+    '9': 9,
+    'T': 10,
+    'Q': 12,
+    'K': 13,
+    'A': 14,
+}
+
+
 def main(raw_input):
-    # Parse input
+    hands = [hand.split() for hand in raw_input.splitlines()]
+    ranked_hands = sorted(hands, key=lambda i: get_hand_score(i[0]))
 
-    # Solve problem
+    total_winnings = 0
+    for i, hand in enumerate(ranked_hands):
+        total_winnings += (i + 1) * int(hand[1])
 
-    # Return solution
-    return None
+    return total_winnings
+
+
+# Scores are integers of the form 01122334455. The first digit is the type score, the rest are the cards.
+def get_hand_score(cards):
+    score = 0
+    score += get_hand_type(cards) * 10000000000
+    score += CARD_SCORES[cards[0]] * 100000000
+    score += CARD_SCORES[cards[1]] * 1000000
+    score += CARD_SCORES[cards[2]] * 10000
+    score += CARD_SCORES[cards[3]] * 100
+    score += CARD_SCORES[cards[4]] * 1
+    return score
+
+
+def get_hand_type(original_cards):
+    best_type = -1
+
+    # As far as I can tell, there is no situation where it is better to convert the jokers different values from
+    # eachother, so this is safe and runs quickly enough to not bother doing anything more clever.
+    for i in '23456789TQKA':
+        cards = original_cards.replace('J', i)
+        counts = sorted(Counter(cards).values(), reverse=True)
+
+        hand_type = -1
+        if counts == [1, 1, 1, 1, 1]:
+            hand_type = 1
+        if counts == [2, 1, 1, 1]:
+            hand_type = 2
+        if counts == [2, 2, 1]:
+            hand_type = 3
+        if counts == [3, 1, 1]:
+            hand_type = 4
+        if counts == [3, 2]:
+            hand_type = 5
+        if counts == [4, 1]:
+            hand_type = 6
+        if counts == [5]:
+            hand_type = 7
+        if hand_type > best_type:
+            best_type = hand_type
+
+    return best_type
 
 
 def get_input(filename):
