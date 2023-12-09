@@ -1,10 +1,19 @@
 def main(raw_input):
-    # Parse input
+    raw_instructions, raw_map = raw_input.split('\n\n')
+    instructions = [int(i) for i in raw_instructions.replace('L', '0').replace('R', '1')]
 
-    # Solve problem
+    map = {}
+    for i in raw_map.splitlines():
+        start, left, right = i.replace(' = (', ',').replace(' ', '').replace(')', '').split(',')
+        map[start] = (left, right)
 
-    # Return solution
-    return None
+    i = 0
+    current_node = 'AAA'
+    while current_node != 'ZZZ':
+        current_node = map[current_node][instructions[i % len(instructions)]]
+        i += 1
+
+    return i
 
 
 def get_input(filename):
