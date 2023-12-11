@@ -28,8 +28,8 @@ class Grid:
         plain_dist = abs(pos1.x - pos2.x) + abs(pos1.y - pos2.y)
         min_x, max_x = sorted((pos1.x, pos2.x))
         min_y, max_y = sorted((pos1.y, pos2.y))
-        expanded_sections_crossed = (len(filter(lambda i: min_x < i < max_x, self.empty_cols))
-                                     + len(filter(lambda i: min_y < i < max_y, self.empty_rows)))
+        expanded_sections_crossed = (len(list(filter(lambda i: min_x < i < max_x, self.empty_cols)))
+                                     + len(list(filter(lambda i: min_y < i < max_y, self.empty_rows))))
         return (plain_dist - expanded_sections_crossed) + (1000000 * expanded_sections_crossed)
 
     def expand(self):
