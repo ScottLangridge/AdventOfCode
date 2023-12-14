@@ -1,10 +1,44 @@
+from collections import Counter
+from tqdm import tqdm
+
+
 def main(raw_input):
-    # Parse input
+    valid_combinations = 0
 
-    # Solve problem
+    for record in tqdm(raw_input.splitlines()):
+        num_blanks = Counter(record)['?']
+        for n in range(2 ** num_blanks):
+            if valid_record(record, num_blanks, n):
+                valid_combinations += 1
 
-    # Return solution
-    return None
+    return valid_combinations
+
+
+def valid_record(record, num_blanks, n):
+    fill_in_with = list(bin(n)[2:].zfill(num_blanks).replace('0', '.').replace('1', '#'))
+    if Counter(fill_in_with)['#'] + Counter(record)['#'] != sum([int(i) for i in record.split()[1].split(',')]):
+        return False
+
+    continuous_brokens = []
+    next_char = ""
+    broken = 0
+    for val in record.split()[0]:
+        if val == '?':
+            next_char = fill_in_with.pop(0)
+        else:
+            next_char = val
+
+        if next_char == '#':
+            broken += 1
+        elif next_char == '.':
+            if broken > 0:
+                continuous_brokens.append(broken)
+                broken = 0
+    if broken > 0:
+        continuous_brokens.append(broken)
+        broken = 0
+
+    return ','.join([str(i) for i in continuous_brokens]) == record.split()[1]
 
 
 def get_input(filename):
