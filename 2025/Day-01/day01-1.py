@@ -1,10 +1,20 @@
 def main(raw_input):
-    # Parse input
+    mult = {
+        "L": -1,
+        "R": 1
+    }
 
-    # Solve problem
+    zero_count = 0
 
-    # Return solution
-    return None
+    dial = 50
+    for line in raw_input.split('\n'):
+        dir = line[0]
+        dist = int(line[1:])
+        dial = (dial + (dist * mult[dir])) % 100
+        if dial == 0:
+            zero_count += 1
+
+    return zero_count
 
 
 def get_input(filename):
