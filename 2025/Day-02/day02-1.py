@@ -1,10 +1,18 @@
 def main(raw_input):
-    # Parse input
+    invalid_sum = 0
 
-    # Solve problem
+    for r in raw_input.split(","):
+        start, end = r.split("-")
+        for i in range(int(start), int(end) + 1):
+            str_i = str(i)
 
-    # Return solution
-    return None
+            if len(str_i) % 2 == 1:
+                continue
+            if str_i[:len(str_i)//2] == str_i[len(str_i)//2:]:
+                print("invalid: " + str_i)
+                invalid_sum += i
+
+    return invalid_sum
 
 
 def get_input(filename):
