@@ -1,10 +1,42 @@
 def main(raw_input):
-    # Parse input
+    grid = [list(line) for line in raw_input.splitlines()]
 
-    # Solve problem
+    accessible_count = 0
 
-    # Return solution
-    return None
+    y = 0
+    while y < len(grid):
+        x = 0
+        while x < len(grid[y]):
+            if grid[y][x] == "@":
+                accessible_count += accessible(grid, x, y)
+            x += 1
+        y += 1
+
+    return accessible_count
+
+
+def accessible(grid, x, y):
+    min_x = 0
+    max_x = len(grid[0]) - 1
+    min_y = 0
+    max_y = len(grid) - 1
+
+    adjacent_count = 0
+    for dx in [-1, 0, 1]:
+        for dy in [-1, 0, 1]:
+            xdx = x + dx
+            ydy = y + dy
+
+            if dx == 0 and dy == 0:
+               continue
+            if not min_y <= ydy <= max_y:
+                continue
+            if not min_x <= xdx <= max_x:
+                continue
+            if grid[ydy][xdx] == "@":
+                adjacent_count += 1
+
+    return adjacent_count < 4
 
 
 def get_input(filename):
