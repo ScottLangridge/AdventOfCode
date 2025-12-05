@@ -1,10 +1,20 @@
 def main(raw_input):
-    # Parse input
+    fresh_ranges = []
+    ingredients = []
 
-    # Solve problem
+    ranges_block, ingredients_block = raw_input.split("\n\n")
+    for _range in ranges_block.splitlines():
+        fresh_ranges.append([int(i) for i in _range.split("-")])
+    ingredients = [int(i) for i in ingredients_block.splitlines()]
 
-    # Return solution
-    return None
+    fresh_count = 0
+    for i in ingredients:
+        for r in fresh_ranges:
+            if r[0] <= i <= r[1]:
+                fresh_count += 1
+                break
+
+    return fresh_count
 
 
 def get_input(filename):
